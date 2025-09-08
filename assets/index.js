@@ -139,7 +139,7 @@ function isEmpty(value){
 
 function forwardToId(params){
 
-    location.href = "/FistaszjoObywatel/id?" + params
+    location.href = "id.html" + params
 
 }
 
@@ -153,3 +153,4 @@ guide.addEventListener('click', () => {
     }
 
 })
+
