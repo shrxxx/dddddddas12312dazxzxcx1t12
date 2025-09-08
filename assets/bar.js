@@ -2,7 +2,7 @@
 var params = new URLSearchParams(window.location.search);
 
 function sendTo(url){
-    location.href = `/main/${url}?` + params;
+    location.href = `/dddddddas12312dazxzxcx1t12/${url}?` + params;
 }
 
 document.querySelectorAll(".bottom_element_grid").forEach((element) => {
@@ -32,4 +32,5 @@ function getMobileOperatingSystem() {
   if (getMobileOperatingSystem() == 2){
       document.querySelector(".bottom_bar").style.height = "70px"
 }
+
 
