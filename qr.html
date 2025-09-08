@@ -1,159 +1,75 @@
-<!DOCTYPE html>
-<html lang="pl">
 <head>
+    <title>mObywatel</title>
     <meta charset="UTF-8">
-    <title>Pokaż Kod QR</title>
+    <link rel="stylesheet" href="assets/qr.css">
+    <link rel="stylesheet" href="assets/main.css">
+    <link rel="icon" type="image/x-icon" href="https://i.imgur.com/gC8DDHD.png">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/gC8DDHD.png">
+    <link rel="shortcut icon" href="https://i.imgur.com/gC8DDHD.png">
+    <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f0f2f5;
-            text-align: center;
-            padding: 24px; /* Dodano padding dla mniejszych ekranów */
-            box-sizing: border-box;
-        }
-        .main_title {
-            font-size: 40px;
-            font-family: Inter;
-            font-weight: 700;
-            color: #000;
-            margin-bottom: 8px;
-        }
-        .description {
-            font-size: 14px;
-            color: #7f8c8d;
-            margin-top: 0;
-            margin-bottom: 24px; /* Dodano margines, aby oddzielić od boksu QR */
-        }
-        .qr_view {
-            padding: 24px;
-            background-color: #fff;
-            border-radius: 12px;
-            max-width: 380px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        #qrcode {
-            margin-top: 24px;
-            margin-bottom: 24px;
-        }
-        .code_number {
-            font-size: 40px;
-            font-weight: 700;
-            letter-spacing: 6px;
-            color: #00000;
-            margin-top: 5px;
-            margin-bottom: 2px;
-        }
-        .timer_bar {
-            width: 90%;
-            height: 6px;
-            background-color: #ecf0f1;
-            margin: 20px auto 10px;
-            border-radius: 3px;
-        }
-        #time-bar {
-            height: 100%;
-            background-color: #3498db;
-            width: 100%;
-            transition: width 1s linear;
-            border-radius: 3px;
-        }
-        .expires_text {
-            font-size: 14px;
-            color: #7f8c8d;
-            margin: 0;
-        }
-        .icon-box {
-            width: 90%;
-            max-width: 380px;
-            height: 60px;
-            background-color: #fff;
-            border-radius: 12px;
-            margin-top: 24px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-        .icon-box img {
-            width: 40px;
-            height: auto;
-            border-radius: 8px;
-        }
-    </style>
-    
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+    <meta name="mobile-web-app-capable" content="yes">
 </head>
 <body>
 
-<p class="main_title">Pokaż kod QR osobie, której dokument sprawdzasz</p>
-<p class="description">Gdy ta osoba zeskanuje lub przepisze kod, zobaczysz jej dane  na swoim telefonie</p>
-
-<div class="qr_view">
-    <div id="qrcode"></div>
-    <p class="code_number" id="code-number"></p>
-
-    <div class="timer_bar">
-        <div id="time-bar"></div>
+    <div class="error">
+        <div class="opacity close"></div>
+        <div class="error_box">
+            <p class="error_title">Coś poszło nie tak...</p>
+            <p class="error_description">Wygląda na to, że wystąpił bład, spróbuj ponownie później.</p>
+            <p class="error_button close">Rozumiem</p>
+        </div>
     </div>
-    <p class="expires_text" id="expires-text"></p>
-</div>
 
-<div class="icon-box">
-    <img src="https://placehold.co/100x100/3498db/fff?text=1" alt="Placeholder 1">
-    <img src="https://placehold.co/100x100/e74c3c/fff?text=2" alt="Placeholder 2">
-</div>
+    <div class="bottom_bar">
+        <div class="bottom_bar_grid">
+            <div class="bottom_element_grid" send="home">
+                <div class="bottom_element_image home"></div>
+                <p class="bottom_element_text">Pulpit</p>
+            </div>
+            <div class="bottom_element_grid" send="documents">
+                <div class="bottom_element_image documents"></div>
+                <p class="bottom_element_text">Dokumenty</p>
+            </div>
+            <div class="bottom_element_grid" send="services">
+                <div class="bottom_element_image services"></div>
+                <p class="bottom_element_text">Usługi</p>
+            </div>
+            <div class="bottom_element_grid" send="qr">
+                <div class="bottom_element_image qr qr_open"></div>
+                <p class="bottom_element_text open">Kod QR</p>
+            </div>
+            <div class="bottom_element_grid" send="more">
+                <div class="bottom_element_image more"></div>
+                <p class="bottom_element_text">Więcej</p>
+            </div>
+        </div>
+    </div>
 
-<script>
-    function generateAndDisplayQRCode() {
-        const qrcodeDiv = document.getElementById('qrcode');
-        if (qrcodeDiv) {
-            qrcodeDiv.innerHTML = '';
-        }
+    <div class="container">
+        <p class="main_title">Kod QR</p>
+        <p class="description">Wybierz, co chcesz zrobić</p>
+        <div class="action_grid">
+            <div class="action">
+                <img class="action_image" src="images/ai002_confirm_identity.svg">
+                <div class="action_text">
+                    <p class="action_title">Zeskanuj kod QR</p>
+                    <p class="action_subtitle">Zaloguj się lub potwierdź swoje dane.</p>
+                </div>
+                <img class="arrow" src="images/ic_arrow_forward_gray.svg">
+            </div>
+            <div class="action">
+                <img class="action_image" src="images/ai003_check_document.svg">
+                <div class="action_text">
+                    <p class="action_title">Pokaż kod QR</p>
+                    <p class="action_subtitle">Sprawdź dokument innej osoby.</p>
+                </div>
+                <img class="arrow" src="images/ic_arrow_forward_gray.svg">
+            </div>
+        </div>
+    </div>
 
-        const codeNumber = Math.floor(100000 + Math.random() * 900000);
-        document.getElementById('code-number').textContent = codeNumber;
-        
-        new QRCode(qrcodeDiv, {
-            text: codeNumber.toString(),
-            width: 280,
-            height: 280,
-        });
-
-        let timeLeft = 180;
-        const timeBar = document.getElementById('time-bar');
-        const expiresText = document.getElementById('expires-text');
-        
-        const timer = setInterval(() => {
-            timeLeft--;
-            timeBar.style.width = (timeLeft / 180) * 100 + '%';
-            
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
-            
-            expiresText.innerHTML = `Kod wygaśnie za: <strong>${minutes} min ${formattedSeconds} sek</strong>.`;
-
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                expiresText.innerHTML = 'Kod wygasł.';
-                timeBar.style.width = '0%';
-            }
-        }, 1000);
-    }
-
-    generateAndDisplayQRCode();
-</script>
-
+    <script src="assets/bar.js"></script>
+    <script src="assets/qr.js"></script>
+    <script src="assets/manifest.js"></script>
 </body>
-</html>
