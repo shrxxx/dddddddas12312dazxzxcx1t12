@@ -1,480 +1,83 @@
-body { 
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f5f5f5;
+var error = document.querySelector('.error')
+document.querySelectorAll('.action').forEach((_0x296273, _0x207928) => {
+  _0x296273.addEventListener('click', () => {
+    _0x207928 === 0 ? startScanner() : showQRCode()
+  })
+})
+document.addEventListener('click', function (_0x2e5cc2) {
+  _0x2e5cc2.target.classList.contains('close') &&
+    (document.querySelector('.error')?.classList.remove('error_open'),
+    document.querySelector('.scanner_view')?.remove(),
+    document.querySelector('.qr_view')?.remove())
+})
+function showQRCode() {
+  const _0x4508d6 = document.createElement('div')
+  _0x4508d6.className = 'qr_view'
+  _0x4508d6.innerHTML =
+    '\n        <p class="main_title">Pokaż kod QR osobie, której dokument sprawdzasz</p>\n        <p class="description">Gdy ta osoba zeskanuje lub wpisze kod, jej dane pojawią się na Twoim telefonie</p>\n        <div id="qrcode" style="margin: 20px auto;"></div>\n        <p class="code_number" id="code-number"></p>\n\n        <div class="timer_bar"><div id="time-bar"></div></div>\n        <p class="expires_text" id="expires-text"></p>\n\n        <div class="bottom-logos">\n            <div class="left-section">\n                <img src="https://i.imgur.com/1XtqkbK.gif" alt="Godło" class="left_logo">\n                <p class="logos_text">Rzeczpospolita <br>Polska</p>\n            </div>\n            <img src="https://i.imgur.com/PF3ac4i.gif" alt="Godło animated" class="right_logo">\n        </div>\n\n        <p class="error_button close">Zamknij</p>\n    '
+  document.body.appendChild(_0x4508d6)
+  const _0x62768b = Math.floor(100000 + Math.random() * 900000)
+  document.getElementById('code-number').textContent = _0x62768b
+  const _0x24e6af = new QRCode(document.getElementById('qrcode'), {
+    text: _0x62768b.toString(),
+    width: 200,
+    height: 200,
+  })
+  let _0x4010a5 = 180
+  const _0x3e4f5b = document.getElementById('time-bar'),
+    _0x3276ae = document.getElementById('expires-text'),
+    _0x5ea654 = setInterval(() => {
+      _0x4010a5--
+      _0x3e4f5b.style.width = (_0x4010a5 / 180) * 100 + '%'
+      const _0x5991e1 = Math.floor(_0x4010a5 / 60),
+        _0x17de2d = _0x4010a5 % 60
+      _0x3276ae.innerHTML =
+        'Kod wygaśnie za: <strong>' +
+        _0x5991e1 +
+        ' min ' +
+        (_0x17de2d < 10 ? '0' + _0x17de2d : _0x17de2d) +
+        ' sek</strong>.'
+      _0x4010a5 <= 0 &&
+        (clearInterval(_0x5ea654), (_0x3276ae.innerHTML = 'Kod wygasł.'))
+    }, 1000)
 }
-
-.container {
-    text-align: center;
-    padding: 30px;
+function startScanner() {
+  const _0x1eb920 = document.createElement('div')
+  _0x1eb920.className = 'scanner_view'
+  _0x1eb920.innerHTML =
+    '\n        <div class="scanner_header">\n            <p class="back_link" onclick="document.querySelector(\'.scanner_view\')?.remove()">&lt; Kod QR          <p class="main_title">Kod QR</p>\n            <p class="help_icon">?</p>\n        </div>\n        <p class="description">Umieść kod QR w ramce, aby go zeskanować.</p>\n\n        <div class="scanner_wrapper">\n            <div class="warning">\n                <img src="https://i.imgur.com/hKfaBvw.png" style="width: 20px; vertical-align: middle; margin-right: 5px;">\n                Upewnij się, że kod QR pochodzi z wiarygodnego źródła.\n                <span class="close_warning" onclick="this.parentElement.style.display=\'none\'">\u2715</span>\n            </div>\n            <div id="reader" class="qr_reader"></div>\n        </div>\n\n        <button class="manual_button" onclick="showCodeInput()">Wpisz kod</button>\n\n    '
+  document.body.appendChild(_0x1eb920)
+  const _0x302108 = new Html5Qrcode('reader')
+  _0x302108.start(
+    { facingMode: 'environment' },
+    {
+      fps: 10,
+      qrbox: {
+        width: 250,
+        height: 250,
+      },
+    },
+    (_0x1226db, _0x51c3ab) => {
+      alert('Zeskanowany kod: ' + _0x1226db)
+      _0x302108.stop()
+      document.querySelector('.scanner_view')?.remove()
+    },
+    (_0x3c535c) => {}
+  )
 }
-
-.main_title {
-    font-size: 32px; /* było 26px */
-    font-weight: bold;
-    margin: 10px;
-    right: 200px;
-}
-
-.description {
-    font-size: 16px;
-    margin: 10px;
-    color: #333;
-}
-
-.action_grid {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.action {
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    border-radius: 12px;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    transition: background 0.2s ease;
-    touch-action: manipulation;
-}
-
-.action:hover {
-    background: #f0f0f0;
-}
-
-.action_image {
-    width: 48px;
-    height: 48px;
-    margin-right: 15px;
-    flex-shrink: 0;
-}
-
-.action_text {
-    flex: 1;
-    text-align: left;
-}
-
-.action_title {
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0;
-}
-
-.action_subtitle {
-    font-size: 13px;
-    color: #666;
-    margin-top: 4px;
-}
-
-.arrow {
-    width: 20px;
-    height: 20px;
-    margin-left: 10px;
-}
-
-.qr_view {
-    position: fixed;
-    top: 0; left: 0;
-    background: white;
-    color: rgb(0, 0, 0);
-    width: 100%; height: 100%;
-    z-index: 9999;
-    overflow: auto;
-    text-align: center;
-    padding: 35px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.scanner_view {
-    position: fixed;
-    top: 0; left: 0;
-    background: white;
-    color: black;
-    width: 100%; height: 100%;
-    z-index: 9999;
-    overflow: auto;
-    text-align: center;
-    padding: 20px;
-}
-
-.code_number {
-    font-size: 40px; /* było 32px */
-    font-weight: bold;
-    margin: 11px;
-}
-
-.timer_bar {
-    background: #ddd;
-    height: 5px;
-    margin: 10px;
-    width: 100%;
-    max-width: 300px;
-}
-
-#time-bar {
-    background: #004b9b;
-    height: 5px;
-    width: 100%;
-}
-
-.bottom-logos {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 50px;
-    width: 100%;
-    margin: 20px 0 10px;
-    box-sizing: border-box;
-}
-
-.left_logo, .right_logo {
-    height: 50px;
-}
-
-.left-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.logos_text {
-    font-size: 11px;
-    color: #555;
-    margin: 5px 0 0;
-    text-align: left;
-}
-
-/* Przycisk Zamknij - ukryty */
-.error_button.close {
-    display: none;
-}
-
-.error_button {
-    background: #004b9b;
-    color: white;
-    padding: 12px 20px;
-    margin: 20px auto;
-    display: inline-block;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-/* Skaner QR */
-.scanner_header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: bold;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ccc;
-}
-
-.back_link {
-    color: #004b9b;
-    cursor: pointer;
-    margin-left: 0;
-}
-
-.help_icon {
-    margin-right: 10px;
-    font-size: 20px;
-    color: #999;
-}
-
-.warning {
-    background-color: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeeba;
-    border-radius: 6px;
-    padding: 10px;
-    font-size: 14px;
-    margin: 10px auto;
-    max-width: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.close_warning {
-    margin-left: 10px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.qr_reader {
-    width: 300px;
-    height: 300px;
-    margin: 20px auto;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.manual_button {
-    margin-top: 20px;
-    padding: 12px 20px;
-    border: 2px solid #0045a5;
-    background-color: white;
-    color: #0045a5;
-    font-size: 16px;
-    border-radius: 12px;
-    cursor: pointer;
-}
-
-.code_input_view {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: white;
-    color: black;
-    z-index: 9999;
-    padding: 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.code_input_view .scanner_header {
-    position: absolute;
-    top: 20px;
-    left: 0;
-    right: 0;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: bold;
-}
-
-.code_input_view {
-    color: #004b9b;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.close_input {
-    color: #004b9b;
-    cursor: pointer;
-    font-size: 14px;
-    left: 200px;
-}
-
-.code_input {
-    width: 200px;
-    font-size: 28px;
-    text-align: center;
-    padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    margin: 20px 0 10px;
-}
-
-.input_hint {
-    font-size: 14px;
-    color: #888;
-    margin-bottom: 20px;
-}
-
-.submit_code_button {
-    padding: 12px 30px;
-    font-size: 16px;
-    border: none;
-    border-radius: 999px;
-    background-color: #8da9d9;
-    color: white;
-    cursor: pointer;
-}
-
-.submit_code_button:disabled {
-    background-color: #c7d2e5;
-    cursor: not-allowed;
-}
-
-/* Ekran błędu */
-.error_view {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: white;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-    text-align: center;
-    flex-direction: column;
-}
-
-.error_view .error_icon {
-    width: 60px;
-    height: 60px;
-    background-color: #f44336;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 32px;
-    margin-bottom: 20px;
-}
-
-.error_view {
-    font-size: 22px;
-    font-weight: bold;
-    color: #222;
-    margin-bottom: 10px;
-}
-
-.error_view .error_description {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 30px;
-    line-height: 1.4;
-}
-
-.error_view .error_button_primary {
-    background-color: #0045a5;
-    color: white;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 999px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-bottom: 15px;
-    width: 80%;
-    max-width: 300px;
-}
-
-.error_view .error_button_secondary {
-    background-color: white;
-    color: #0045a5;
-    border: 2px solid #0045a5;
-    padding: 12px 30px;
-    border-radius: 999px;
-    font-size: 16px;
-    cursor: pointer;
-    width: 80%;
-    max-width: 300px;
-}
-
-/* Responsive for mobile */
-@media (max-width: 500px) {
-    .main_title {
-        font-size: 28px; /* zwiększono również wersję mobilną */
-    }
-
-    .description {
-        font-size: 15px;
-    }
-
-    .action {
-        padding: 14px 16px;
-    }
-
-    .action_title {
-        font-size: 17px;
-    }
-
-    .action_subtitle {
-        font-size: 12px;
-    }
-
-    .submit_code_button,
-    .manual_button,
-    .error_button,
-    .error_button_primary,
-    .error_button_secondary {
-        width: 100%;
-        font-size: 15px;
-    }
-}
-
-.showconfirmation {
-    background: #f5f5f5;
-    padding: 20px;
-    min-height: 100vh;
-    box-sizing: border-box;
-    font-family: sans-serif;
-}
-
-.showconfirmation .profile_photo {
-    width: 100px;
-    height: 100px;
-    border-radius: 16px;
-    object-fit: cover;
-    margin: 0 auto 20px;
-    display: block;
-}
-
-.showconfirmation .status_box {
-    background: white;
-    padding: 16px 20px;
-    border-radius: 16px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.showconfirmation .status_success {
-    display: inline-flex;
-    align-items: center;
-    font-size: 14px;
-    color: #198754;
-    background: #e9f7ef;
-    padding: 6px 12px;
-    border-radius: 999px;
-    margin-bottom: 10px;
-}
-
-.showconfirmation .status_success_icon {
-    width: 12px;
-    height: 12px;
-    background: #198754;
-    border-radius: 50%;
-    margin-right: 8px;
-}
-
-.showconfirmation .status_title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #222;
-    margin: 0 0 6px;
-}
-
-.showconfirmation .status_info {
-    font-size: 13px;
-    color: #555;
-    line-height: 1.4;
-}
-
-.showconfirmation .data_card {
-    background: white;
-    padding: 14px 20px;
-    border-radius: 16px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    margin-bottom: 12px;
-}
-
-.showconfirmation .data_label {
-    font-size: 12px;
-    color: #777;
-    margin-bottom: 4px;
-}
-
-.showconfirmation .data_value {
-    font-size: 16px;
-    font-weight: 500;
-    color: #222;
+function showCodeInput() {
+  const _0x9ac679 = document.createElement('div')
+  _0x9ac679.className = 'code_input_view'
+  _0x9ac679.innerHTML =
+    '\n        <div class="scanner_header">\n            <p class="main_title">Kod</p>\n            <p class="close_input" onclick="document.querySelector(\'.code_input_view\')?.remove()">Zamknij</p>\n        </div>\n        <p class="description">Wpisz lub wklej kod.</p>\n        <input class="code_input" type="text" maxlength="6" placeholder="|" oninput="this.value = this.value.replace(/[^0-9]/g, \'\').slice(0,6)">\n        <p class="input_hint">Wprowadź dokładnie 6 cyfr</p>\n        <button class="submit_code_button" disabled>Dalej</button>\n    '
+  document.body.appendChild(_0x9ac679)
+  const _0x4008c0 = _0x9ac679.querySelector('.code_input'),
+    _0x42cd13 = _0x9ac679.querySelector('.submit_code_button')
+  _0x4008c0.addEventListener('input', () => {
+    _0x42cd13.disabled = _0x4008c0.value.length !== 6
+  })
+  _0x42cd13.addEventListener('click', () => {
+    alert('Wprowadzony kod: ' + _0x4008c0.value)
+    document.querySelector('.code_input_view')?.remove()
+  })
 }
