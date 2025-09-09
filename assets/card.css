@@ -513,13 +513,6 @@ body .bottom_bar{
     height: max-content;
 }
 
-.logos_text {
-            font-size: 11px;
-            color: #808080;
-            margin: 5px 0 0;
-            text-align: center;
-            line-height: 1.2;
-        }
 .box_highlight{
     font-size: 25px;
     font-weight: 600;
