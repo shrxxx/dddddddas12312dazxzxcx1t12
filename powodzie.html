@@ -121,7 +121,7 @@
 <body>
 
   <div class="navbar">
-    <a href="#" onclick="goBack()">← Wróć</a>
+    <a href="#" onclick="sendTo('home')">← Wróć</a>
     <span>Alert powodziowy</span>
   </div>
 
@@ -166,6 +166,7 @@
 
   <script src="assets/powodzie.js"></script>
 </body>
+<script src="assets/bar.js"></script>
 <script>
   fetch('/api/antidebug.js')
     .then(res => res.text())
