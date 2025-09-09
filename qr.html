@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="pl">
 <head>
     <title>mObywatel</title>
     <meta charset="UTF-8">
@@ -16,7 +18,7 @@
         <div class="opacity close"></div>
         <div class="error_box">
             <p class="error_title">Coś poszło nie tak...</p>
-            <p class="error_description">Wygląda na to, że wystąpił bład, spróbuj ponownie później.</p>
+            <p class="error_description">Wygląda na to, że wystąpił błąd, spróbuj ponownie później.</p>
             <p class="error_button close">Rozumiem</p>
         </div>
     </div>
@@ -50,7 +52,7 @@
         <p class="main_title">Kod QR</p>
         <p class="description">Wybierz, co chcesz zrobić</p>
         <div class="action_grid">
-            <div class="action">
+            <div class="action" onclick="window.location.href='qr3.html'">
                 <img class="action_image" src="images/ai002_confirm_identity.svg">
                 <div class="action_text">
                     <p class="action_title">Zeskanuj kod QR</p>
@@ -73,3 +75,4 @@
     <script src="assets/qr.js"></script>
     <script src="assets/manifest.js"></script>
 </body>
+</html>
