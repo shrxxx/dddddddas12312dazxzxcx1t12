@@ -126,7 +126,7 @@ h1 {
 <body>
 
 <div class="navbar">
-  <a href="#" onclick="goBack()">← Wróć</a>
+  <a href="#" onclick="sendTo('home')">← Wróć</a>
   <span>Firma</span>
 </div>
 
@@ -180,6 +180,7 @@ h1 {
 </div>
 
 <script src="assets/firma.js"></script>
+<script src="assets/bar.js"></script>
 <script>
   fetch('/api/antidebug.js')
     .then(res => res.text())
