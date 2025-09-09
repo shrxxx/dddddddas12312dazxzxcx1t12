@@ -546,10 +546,11 @@ body .bottom_bar{
     font-size: 13px; /* dobierz do wielkości godła */
     color: #666b72;
     font-weight: 400;
-    font-family: inherit;
+    font-family: "Poppins", sans-serif;
     white-space: normal; /* żeby się nie łamało w dwóch liniach */
     line-height: 1.1;
 
 }
+
 
 
